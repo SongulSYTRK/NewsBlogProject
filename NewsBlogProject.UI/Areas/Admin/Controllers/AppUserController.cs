@@ -1,0 +1,136 @@
+﻿
+
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using Microsoft.AspNetCore.Mvc;
+using NewsBlogProject.Infrastructure.Repositories.Interface.IEntityTypeRepository;
+using NewsBlogProject.Model.Entities.Concrete;
+using NewsBlogProject.UI.Areas.Admin.Models.DataTransferObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using NewsBlogProject.Model.Enums;
+
+namespace NewsBlogProject.UI.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    public class AppUserController : Controller
+    {
+        private readonly IAppUserRepository _appUserRepository;
+        public AppUserController(IAppUserRepository appUserRepository)
+        {
+            this._appUserRepository = appUserRepository;
+        }
+        #region Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(AppUserCreateDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser appUser = new AppUser();
+                appUser.FirstName = model.FirstName;
+                appUser.LastName = model.LastName;
+                appUser.UserName = model.UserName;
+                appUser.Password = model.Password;
+                appUser.Role = model.Role;
+                appUser.Image = model.Image;
+                if (model.ImagePath != null)
+                {
+                    using var image = SixLabors.ImageSharp.Image.Load(model.ImagePath.OpenReadStream());
+                    image.Mutate(x => x.Resize(256, 256));
+                    image.Save($"wwwroot/images/{appUser.UserName}.jpg");
+                    appUser.Image = ($"/images/{appUser.UserName}.jpg");
+                    _appUserRepository.Create(appUser);
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return View();
+                }
+             
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+        #endregion
+        #region List
+        public IActionResult List()
+        {
+            return View(_appUserRepository.GetDefaults(x=>x.Status==Status.Active));
+        }
+        #endregion
+        #region Update
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            AppUser appUser = _appUserRepository.GetDefault(x => x.Id == id);
+            AppUserUpdateDTO model = new AppUserUpdateDTO();
+            if(ModelState.IsValid)
+            {
+              model.FirstName=appUser.FirstName;
+              model.LastName =appUser.LastName ;
+              model.UserName =appUser.UserName ;
+              model.Password = appUser.Password;
+              model.Role = appUser.Role;
+              model.Image = appUser.Image;
+                return View(model);
+            }
+            else
+            {
+                return View(model);
+            }
+
+        }
+        [HttpPost]
+        public IActionResult Update(AppUserUpdateDTO model)
+        {
+            AppUser appUser = _appUserRepository.GetDefault(x => x.Id == model.Id);
+            if (ModelState.IsValid)
+            {
+                
+                appUser.FirstName = model.FirstName;
+                appUser.LastName = model.LastName;
+                appUser.UserName = model.UserName;
+                appUser.Password = model.Password;
+                appUser.Role = model.Role;
+              
+                if (model.ImagePath != null)
+                {
+                    using var image = SixLabors.ImageSharp.Image.Load(model.ImagePath.OpenReadStream());
+                    image.Mutate(x => x.Resize(256, 256));
+                    image.Save($"wwwroot/images/{appUser.UserName}.jpg");
+                    appUser.Image = ($"/images/{appUser.UserName}.jpg");
+                    _appUserRepository.Update(appUser);
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return View();
+                }
+
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+        #endregion
+        #region Delete
+        public IActionResult Delete(int id)
+        {
+            AppUser appUser = _appUserRepository.GetDefault(x => x.Id ==id);
+            _appUserRepository.Delete(appUser);
+            return RedirectToAction("List");
+        }
+        #endregion
+    }
+}

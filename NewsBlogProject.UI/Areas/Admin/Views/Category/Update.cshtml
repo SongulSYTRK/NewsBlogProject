@@ -1,0 +1,38 @@
+﻿@model CategoryUpdateDTO
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mt-2">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Update Category</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Update">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="CategoryName"></label>
+                        <input asp-for="CategoryName" class="form-control" placeholder="CategoryName" />
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" class="form-control" placeholder="Description" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group float-right">
+                        <input type="submit" value="Update" class="btn btn-sm btn-primary" />
+
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a asp-action="List" class="btn btn-block btn-dark">Back to list</a>
+            </div>
+
+        </div>
+    </div>
+</div>
