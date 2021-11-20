@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NewsBlogProject.Infrastructure.Repositories.Interface.IEntityTypeRepository;
 using NewsBlogProject.Model.Entities.Concrete;
 using NewsBlogProject.Model.Enums;
@@ -14,9 +15,12 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly IMapper _mapper;
+        public CategoryController(ICategoryRepository categoryRepository,
+                                   IMapper mapper)
         {
             this._categoryRepository = categoryRepository;
+            this._mapper = mapper;
         }
 
 
@@ -32,17 +36,19 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
         public IActionResult Create(CategoryCreateDTO model)
         {
             if (ModelState.IsValid)
-            {
-                Category category = new Category();
-                 category.CategoryName= model.CategoryName ;
-                 category.Description= model.Description ;
-                _categoryRepository.Create(category);
-                return View(model);
-            }
+             {
+                //    Category category = new Category();
+                //     category.CategoryName= model.CategoryName ;
+                //     category.Description= model.Description ;
+            var category = _mapper.Map<Category>(model);
+            _categoryRepository.Create(category);
+            return View();
+             }
             else
             {
                 return View(model);
             }
+
         }
         #endregion
         #region List
@@ -56,21 +62,23 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
         public IActionResult Update(int id)
         {
             Category category = _categoryRepository.GetDefault(x => x.Id == id);
-            CategoryUpdateDTO model = new CategoryUpdateDTO();
-            model.Id = category.Id;
-            model.CategoryName = category.CategoryName;
-            model.Description = category.Description;
+            //CategoryUpdateDTO model = new CategoryUpdateDTO();
+            //model.Id = category.Id;
+            //model.CategoryName = category.CategoryName;
+            //model.Description = category.Description;
+            var model = _mapper.Map<CategoryUpdateDTO>(category);
             return View(model);
 
         }
         public IActionResult Update(CategoryUpdateDTO model)
         {
-            Category category = _categoryRepository.GetDefault(x => x.Id == model.Id);
+           // Category category = _categoryRepository.GetDefault(x => x.Id == model.Id);
             if (ModelState.IsValid)
             {
-                category.Id = model.Id;
-                category.CategoryName = model.CategoryName;
-                category.Description = model.Description;
+                //category.Id = model.Id;
+                //category.CategoryName = model.CategoryName;
+                //category.Description = model.Description;
+                var category = _mapper.Map<Category>(model);
                 _categoryRepository.Update(category);
                 return RedirectToAction("List");
             }

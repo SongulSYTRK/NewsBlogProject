@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NewsBlogProject.Infrastructure.Context;
+using NewsBlogProject.UI.Models.Mapper;
 
 namespace NewsBlogProject.UI
 {
@@ -45,6 +46,9 @@ namespace NewsBlogProject.UI
             services.AddScoped<ILikeRepository, LikeRepository>();
 
 
+            ///*******Added mapping IOC Container *******////
+            services.AddAutoMapper(typeof(Mapping));
+
 
         }
 
@@ -67,6 +71,7 @@ namespace NewsBlogProject.UI
 
                 app.UseEndpoints(endpoints =>
                 {
+                    ///**We added Area in pipeline **////
                  endpoints.MapControllerRoute(
                   name: "areas",
                   pattern: "{area:exists}/{controller=Home}/{action=index}/{id?}");
