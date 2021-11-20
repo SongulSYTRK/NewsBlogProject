@@ -17,7 +17,9 @@ The project have mapping operation. I combined DTO property and object property 
 
 
 # What is IOC(Inversion Of Control)?
-### It is a software development principle that aims to create loosely coupled objects.When interface is injected into the class using IoC,Interface's method can be usable.Ioc Container provide to create object inside ConfigureServiceMethod in Start-up class
+### It is a software development principle that aims to create loosely coupled objects.When interface is injected into the class using IoC,Interface's method can be usable.
+##    What is Ioc Container? 
+#### It is a framework that allows to manage dependency injection.It is the process of managing the lifecycle of objects. It provide to create object inside ConfigureServiceMethod in Start-up class
 
 
 <br> ![image](https://user-images.githubusercontent.com/90280719/142729926-bcf0bac1-1080-45fb-8b40-6471443ca6d9.png)
