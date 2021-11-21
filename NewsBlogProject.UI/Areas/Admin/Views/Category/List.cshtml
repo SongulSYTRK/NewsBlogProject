@@ -1,4 +1,4 @@
-﻿@model List<Category>
+﻿@model List<GetCategoryVM>
 @{
     ViewData["Title"] = "List";
     //Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -25,34 +25,36 @@
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Ip adress</th>
-                                <th>Computer Name</th>
-                                <th>create date</th>
-                                <th>Status</th>
-                                <th>Update</th>
-                                <th>Delete</th>
-
+                                @*<th>Ip adress</th>
+                                  <th>Computer Name</th>
+                                  <th>create date</th>
+                                  <th>Status</th>*@
+                                 <th>Update</th>
+                                 <th>Delete</th>
+                                 <th>Detail</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             @foreach (GetCategoryVM category in Model)
+                             {
+                             <tr>
+                                 <td>@category.Id</td>
+                                 <td>@category.CategoryName</td>
+                                 <td>@category.Description</td>
+                                 @*<td>@category.CreateIp</td>
+                                   <td>@category.CreateComputerName</td>
+                                   <td>@category.CreateDate</td>
+                                   <td>@category.Status</td>*@
+                                <td>
+                                    <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-sm btn-outline-primary">Update</a>
+                                </td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-warning">Delete</a>
+                                </td>
+                                <td>
+                                    <a asp-action="Detail" asp-route-id="@category.Id" class="btn btn-sm btn-success">Detail</a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (Category category in Model)
-                            {
-                                <tr>
-                                    <td>@category.Id</td>
-                                    <td>@category.CategoryName</td>
-                                    <td>@category.Description</td>
-                                    <td>@category.CreateIp</td>
-                                    <td>@category.CreateComputerName</td>
-                                    <td>@category.CreateDate</td>
-                                    <td>@category.Status</td>
-                                    <td>
-                                        <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-sm btn-warning">Update</a>
-                                    </td>
-                                    <td>
-                                        <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-primary">Delete</a>
-                                    </td>
-
-                                </tr>
 
                             }
 

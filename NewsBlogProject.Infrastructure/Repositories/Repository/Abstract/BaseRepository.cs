@@ -31,14 +31,24 @@ namespace NewsBlogProject.Infrastructure.Repositories.Repository.Abstract
             _db.SaveChanges();
         }
 
-        public T GetDefault(Expression<Func<T, bool>> expression)
+        public T GetInt(Expression<Func<T, bool>> expression)
         {
             return _table.FirstOrDefault(expression);
         }
 
-        public List<T> GetDefaults(Expression<Func<T, bool>> expression)
+        public List<TResult> GetDefaults<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> expression)
         {
-            return _table.Where(expression).ToList();
+            IQueryable<T> query = _table;
+            if(expression != null)
+            {
+                query = _table.Where(expression);
+            }
+            return _table.Select(selector).ToList();
+        }
+
+        public TResult GetDefault<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> expression)
+        {
+            return _table.Where(expression).Select(selector).FirstOrDefault();
         }
 
         public void Update(T Entity)

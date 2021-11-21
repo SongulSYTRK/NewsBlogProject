@@ -12,7 +12,15 @@ namespace NewsBlogProject.Infrastructure.Repositories.Interface.IBaseRepository
         void Update(T Entity);
         void Delete(T Entity);
 
-        T GetDefault(Expression<Func<T , bool>> expression);
-        List<T> GetDefaults(Expression<Func<T, bool>> expression);
+      
+        T GetInt(Expression<Func<T, bool>> expression);
+
+        // T GetDefault(Expression<Func<T , bool>> expression);
+        TResult GetDefault<TResult>(Expression<Func<T, TResult>> selector,
+                                    Expression<Func<T, bool>> expression);
+
+        //  List<T> GetDefaults(Expression<Func<T, bool>> expression);
+        List<TResult> GetDefaults<TResult>(Expression<Func<T, TResult>> selector,
+                                           Expression<Func<T, bool>> expression);
     }
 }

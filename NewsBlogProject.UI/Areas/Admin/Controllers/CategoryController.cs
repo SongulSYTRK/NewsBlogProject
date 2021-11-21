@@ -4,6 +4,7 @@ using NewsBlogProject.Infrastructure.Repositories.Interface.IEntityTypeRepositor
 using NewsBlogProject.Model.Entities.Concrete;
 using NewsBlogProject.Model.Enums;
 using NewsBlogProject.UI.Areas.Admin.Models.DataTransferObjects;
+using NewsBlogProject.UI.Areas.Admin.Models.VMs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,22 +55,34 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
         #region List
         public IActionResult List(int id)
         {
-            return View(_categoryRepository.GetDefaults(x => x.Status != Status.Passive));
+            return View(_categoryRepository.GetDefaults(selector: x=> new GetCategoryVM
+                                                                {
+                                                                 Id=x.Id,
+                                                                 CategoryName=x.CategoryName,
+                                                                 Description=x.Description
+                                                                },
+                                                                  
+                                                         expression: x=>x.Status != Status.Passive));
         }
         #endregion
         #region UPDATE
         [HttpGet]
         public IActionResult Update(int id)
         {
-            Category category = _categoryRepository.GetDefault(x => x.Id == id);
+
+            //*****var category=_categoryRepository.GetDefault
+            //instead of 
+            var category = _categoryRepository.GetDefault(selector: x => new GetCategoryVM { Id = x.Id, CategoryName = x.CategoryName, Description = x.Description, }, expression: x => x.Id == id);
             //CategoryUpdateDTO model = new CategoryUpdateDTO();
             //model.Id = category.Id;
             //model.CategoryName = category.CategoryName;
             //model.Description = category.Description;
+            //************getcategoryVM and CategoryUpdateDTO done mapping (Mapper=>mapping)****//
             var model = _mapper.Map<CategoryUpdateDTO>(category);
             return View(model);
 
         }
+        [HttpPost]
         public IActionResult Update(CategoryUpdateDTO model)
         {
            // Category category = _categoryRepository.GetDefault(x => x.Id == model.Id);
@@ -91,12 +104,19 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
         #region Delete
             public IActionResult Delete(int id)
             {
-            Category category = _categoryRepository.GetDefault(x => x.Id == id);
+            Category category = _categoryRepository.GetInt(x => x.Id == id);
             _categoryRepository.Delete(category);
             return RedirectToAction("List");
             }
-            #endregion
+        #endregion
+        #region Detail
+        public IActionResult Detail(int id)
+        {
+            var category = _categoryRepository.GetDefault(selector: x => new GetCategoryDetailVM { Id = x.Id, CategoryName = x.CategoryName, Description = x.Description, Status = x.Status, CreateDate = x.CreateDate }, expression: x => x.Id == id);
+            return View(category);
         }
+        #endregion
     }
+}
 
 

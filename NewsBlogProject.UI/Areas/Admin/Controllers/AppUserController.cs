@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using NewsBlogProject.Model.Enums;
 using AutoMapper;
+using NewsBlogProject.UI.Areas.Admin.Models.VMs;
 
 namespace NewsBlogProject.UI.Areas.Admin.Controllers
 {
@@ -50,8 +51,8 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
 
 
                 /////*******Before I write Totaly seven line of code . But Now I write 1 line of code . I won time and errorrate decreased*****//////
-                var appUser = _mapper.Map<AppUser>(model); 
-                
+                var appUser = _mapper.Map<AppUser>(model);
+
 
                 if (model.ImagePath != null)
                 {
@@ -70,7 +71,7 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
                 {
                     return View();
                 }
-             
+
             }
             else
             {
@@ -81,16 +82,33 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
         #region List
         public IActionResult List()
         {
-            return View(_appUserRepository.GetDefaults(x=>x.Status==Status.Active));
+            return View(_appUserRepository.GetDefaults(selector: x=>new GetAppUserVM
+                                                          {FirstName=x.FirstName,
+                                                          LastName=x.LastName,
+                                                          UserName=x.UserName,
+                                                          Password=x.Password,
+                                                          Role=x.Role,
+                                                          Image=x.Image
+                                                          },
+                                                          expression: x=>x.Status!=Status.Passive));
         }
         #endregion
         #region Update
         [HttpGet]
         public IActionResult Update(int id)
         {
-            AppUser appUser = _appUserRepository.GetDefault(x => x.Id == id);
-           // AppUserUpdateDTO model = new AppUserUpdateDTO();
-            if(ModelState.IsValid)
+            var appUser = _appUserRepository.GetDefault(selector: x=>new GetAppUserVM
+                                                          {Id=x.Id,
+                                                          FirstName=x.FirstName,
+                                                          LastName=x.LastName,
+                                                          UserName=x.UserName,
+                                                          Password=x.Password,
+                                                          Role=x.Role,
+                                                          Image=x.Image
+                                                          },
+                                                          expression: x=>x.Id==id);
+            // AppUserUpdateDTO model = new AppUserUpdateDTO();
+            if (ModelState.IsValid)
             {
                 //model.FirstName=appUser.FirstName;
                 //model.LastName =appUser.LastName ;
@@ -110,7 +128,7 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Update(AppUserUpdateDTO model)
         {
-           // AppUser appUser = _appUserRepository.GetDefault(x => x.Id == model.Id);
+            // AppUser appUser = _appUserRepository.GetDefault(x => x.Id == model.Id);
             if (ModelState.IsValid)
             {
 
@@ -141,12 +159,32 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
             }
         }
         #endregion
+
+
+
         #region Delete
         public IActionResult Delete(int id)
         {
-            AppUser appUser = _appUserRepository.GetDefault(x => x.Id ==id);
+            AppUser appUser = _appUserRepository.GetInt(x => x.Id == id);
             _appUserRepository.Delete(appUser);
             return RedirectToAction("List");
+        }
+        #endregion
+        #region Detail
+        public IActionResult Detail(int id)
+        {
+            return View(_appUserRepository.GetDefault
+                (selector: x => new GetAppUserDetailVM
+                {
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    UserName = x.UserName,
+                    Image = x.Image,
+                    ImagePath = x.ImagePath,
+                    Role = x.Role,
+                    CreateDate = x.CreateDate
+                },
+                 expression: x => x.Id == id));
         }
         #endregion
     }

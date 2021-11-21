@@ -1,4 +1,4 @@
-﻿@model List<AppUser>
+﻿@model List<GetAppUserVM>
 @{
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,27 +22,33 @@
                                 <th>Password</th>
                                 <th>Role</th>
                                 <th>Image</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                                <th>Detail</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var user in Model)
+                            @foreach (GetAppUserVM user in Model)
                             {
-                                <tr>
-                                    <td>@user.FirstName</td>
-                                    <td>@user.LastName</td>
-                                    <td>@user.UserName</td>
-                                    <td>@user.Password</td>
-                                    <td>@user.Role</td>
-                                    <td>
-                                        <img src="@user.Image" width="60" />
-                                    </td>
-                                    <td>
-                                        <a asp-action="Update" asp-route-id="@user.Id" class="btn btn-sm btn-warning">Update</a>
-                                    </td>
-                                    <td>
-                                        <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Delete</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>@user.FirstName</td>
+                                <td>@user.LastName</td>
+                                <td>@user.UserName</td>
+                                <td>@user.Password</td>
+                                <td>@user.Role</td>
+                                <td>
+                                    <img src="@user.Image" width="60" />
+                                </td>
+                                <td>
+                                    <a asp-action="Update" asp-route-id="@user.Id" class="btn btn-sm btn-warning">Update</a>
+                                </td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                                <td>
+                                    <a asp-action="Detail" asp-route-id="@user.Id" class="btn btn-sm btn-success">Detail</a>
+                                </td>
+                            </tr>
 }
                         </tbody>
                     </table>

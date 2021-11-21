@@ -10,6 +10,7 @@ namespace NewsBlogProject.UI.Areas.Admin.Models.DataTransferObjects
     public class AppUserUpdateDTO
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage = "must to type into firstname")]
         [MinLength(3, ErrorMessage = "Min length is 3")]
         public string FirstName { get; set; }
