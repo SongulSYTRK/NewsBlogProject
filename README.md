@@ -1,7 +1,7 @@
-# NewsBlogProject
-### In this project,I will create a NewsBlog by using Model View Controller design in .NetCore.  AppUser can add İmage and automatically ImageResizer will cropted image . The project have mapping operation. I combined DTO property and object property with mapping operaiton.   Before  We  moved All data  to memory in ASP.net but We only move what we need. (Eager Loading). We use expression which  can be provide flexible filter  and selector which  can be show  what we want . I made class for selector. If Requestor want to see list, selector have this property. 
+ 
 
 # What is Asp.Netcore?
+
 ### ASP.NET Core is the open-source version of ASP.NET, that runs on macOS, Linux, and Windows. 
 ## The Startup class is the starting point for .NET Core projects
 ![image](https://user-images.githubusercontent.com/90280719/142729969-1308907e-1e6c-47c9-b967-85763567ccff.png)
