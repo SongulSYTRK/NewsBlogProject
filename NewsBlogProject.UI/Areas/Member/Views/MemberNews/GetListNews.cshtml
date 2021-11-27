@@ -1,0 +1,42 @@
+﻿@model List<GetNewsVM>
+@{
+    ViewData["Title"] = "GetListNews";
+    Layout = "~/Areas/Member/Views/Shared/_Layout.cshtml";
+}
+
+<h1>GetListNews</h1>
+@foreach (GetNewsVM news in Model)
+{
+    <div class="row" style="margin-top:20px">
+        <div class="col-md-6">
+            <!-- Box Comment -->
+            <div class="box box-widget">
+                <div class="box-header with-border">
+                    <div class="user-block">
+                        <img class="img-circle" src="@news.UserImage" alt="User Image">
+                        <span class="username"><a href="#">@news.UserFullName</a></span>
+                        <span class="description">Shared publicly - @news.CreateDate</span>
+                    </div>
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <img class="img-responsive pad" src="@news.Image" alt="Photo">
+
+                    <p>@news.Title</p>
+                    <p>
+                        @if (news.Content.Length > 5)
+                        {
+                            @news.Content.Substring(0, 13);
+                        }
+
+                    </p>
+
+                    <a asp-controller="MemberNews" asp-action="NewsDetails" asp-route-id="@news.Id" class="btn btn-sm btn-primary">Read More...</a>
+                    <span class="pull-right text-muted">@news.LikeCount likes - @news.CommentCount comments</span>
+                </div>
+                </div>
+            </div>
+        </div>
+}
+

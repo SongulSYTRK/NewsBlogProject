@@ -13,8 +13,9 @@
 
   <ItemGroup>
     <Content Remove="Areas\Admin\Views\Shared\Error.cshtml" />
-    <Content Remove="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Remove="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <Content Remove="Areas\Member\Views\Shared\Error.cshtml" />
+    <Content Remove="Areas\Member\Views\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,8 +41,9 @@
 
   <ItemGroup>
     <None Include="Areas\Admin\Views\Shared\Error.cshtml" />
-    <None Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <None Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Areas\Member\Views\Shared\Error.cshtml" />
+    <None Include="Areas\Member\Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="wwwroot\media\fonts\fontawesome-webfont.svg" />

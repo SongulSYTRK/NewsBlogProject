@@ -72,7 +72,10 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
 
             //*****var category=_categoryRepository.GetDefault
             //instead of 
-            var category = _categoryRepository.GetDefault(selector: x => new GetCategoryVM { Id = x.Id, CategoryName = x.CategoryName, Description = x.Description, }, expression: x => x.Id == id);
+            var category = _categoryRepository.GetDefault(
+                                selector: x => new GetCategoryVM
+                                         { Id = x.Id, CategoryName = x.CategoryName, Description = x.Description, }, 
+                                expression: x => x.Id == id);
             //CategoryUpdateDTO model = new CategoryUpdateDTO();
             //model.Id = category.Id;
             //model.CategoryName = category.CategoryName;

@@ -1,0 +1,69 @@
+﻿@model NewsCastUpdateDTO
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row mt-2">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Update news</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Update" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" placeholder="Title" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Content"></label>
+                        <input asp-for="Content" class="form-control" placeholder="Content" />
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImagePath"></label>
+                        <input type="file" asp-for="ImagePath" class="form-control" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Choose Category</label>
+                        <select asp-for="CategoryId" class="form-control">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value=" @category.Id">@category.CategoryName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+
+                    </div>
+                    <div class="form-group">
+                        <label>Choose AppUser</label>
+                        <select asp-for="AppUserId" class="form-control">
+                            @foreach (var appUser in Model.AppUsers)
+                            {
+                                <option value=" @appUser.Id">@appUser.FirstName @appUser.LastName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="AppUserId" class="text-danger"></span>
+
+
+                    </div>
+                    <div class="form-group float-right">
+                        <input type="submit" value="Update" class="btn btn-sm btn-primary" />
+
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a asp-action="List" class="btn btn-block btn-dark">Back to list</a>
+            </div>
+
+        </div>
+    </div>
+</div>

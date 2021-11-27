@@ -18,7 +18,7 @@ namespace NewsBlogProject.Model.EntityTypeConfiguration.Concrete
 
 
             builder.Property(x => x.Content)
-                   .HasMaxLength(256)
+                   .HasMaxLength(1000)
                    .IsRequired(true);
 
 

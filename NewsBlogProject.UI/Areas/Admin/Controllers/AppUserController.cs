@@ -83,8 +83,10 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
         public IActionResult List()
         {
             return View(_appUserRepository.GetDefaults(selector: x=>new GetAppUserVM
-                                                          {FirstName=x.FirstName,
-                                                          LastName=x.LastName,
+                                                          {
+                Id=x.Id,
+                FirstName=x.FirstName,
+                                                            LastName=x.LastName,
                                                           UserName=x.UserName,
                                                           Password=x.Password,
                                                           Role=x.Role,

@@ -25,6 +25,16 @@ namespace NewsBlogProject.UI.Models.Mapper
             CreateMap<AppUser, GetAppUserVM>().ReverseMap();
             CreateMap<GetAppUserVM, AppUserUpdateDTO>().ReverseMap();
             CreateMap<AppUser, GetCategoryDetailVM>().ReverseMap();
+
+
+            CreateMap<NewsCast, NewsCastCreateDTO>().ReverseMap();
+            CreateMap<NewsCast, NewsCastUpdateDTO>().ReverseMap();
+            CreateMap<NewsCast, GetNewsVM>().ReverseMap();
+            CreateMap<GetNewsVM, NewsCastUpdateDTO>().ReverseMap();
+
+            CreateMap<NewsCast, GetNewsVM>().ReverseMap();
+
+            CreateMap<Comment, CommentVM>().ReverseMap();
         }
         
     }

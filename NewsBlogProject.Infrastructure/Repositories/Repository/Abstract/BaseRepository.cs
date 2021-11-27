@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using NewsBlogProject.Infrastructure.Context;
 using NewsBlogProject.Infrastructure.Repositories.Interface.IBaseRepository;
 using NewsBlogProject.Model.Entities.Abstract;
@@ -36,19 +37,46 @@ namespace NewsBlogProject.Infrastructure.Repositories.Repository.Abstract
             return _table.FirstOrDefault(expression);
         }
 
-        public List<TResult> GetDefaults<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> expression)
+        public List<TResult> GetDefaults<TResult>(Expression<Func<T, TResult>> selector,
+                                                 Expression<Func<T, bool>> expression,
+                                                 Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
+                                                 Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null)
         {
             IQueryable<T> query = _table;
-            if(expression != null)
+            if (include != null)
             {
-                query = _table.Where(expression);
+                query = include(query);
             }
-            return _table.Select(selector).ToList();
+            if (expression != null)
+            {
+                query = query.Where(expression);
+            }
+            if (orderby != null)
+            {
+                return orderby(query).Select(selector).ToList();
+            }
+            else
+            {
+                return query.Select(selector).ToList();
+
+            }
         }
 
-        public TResult GetDefault<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> expression)
+        public TResult GetDefault<TResult>(Expression<Func<T, TResult>> selector, 
+                                           Expression<Func<T, bool>> expression,
+                                           Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
         {
-            return _table.Where(expression).Select(selector).FirstOrDefault();
+            // return _table.Where(expression).Select(selector).FirstOrDefault();
+            IQueryable<T> query = _table;
+            if (include != null)
+            {
+                query = include(query);
+            }
+            if (expression != null)
+            {
+                query = query.Where(expression);
+            }
+            return query.Select(selector).FirstOrDefault();
         }
 
         public void Update(T Entity)

@@ -1,0 +1,152 @@
+﻿@model GetNewsVM
+@{
+    ViewData["Title"] = "NewsDetail";
+    Layout = "~/Areas/Member/Views/Shared/_Layout.cshtml";
+}
+
+<h1>NewsDetail</h1>
+
+<div class="row"
+<div class="col-md-6">
+<!-- Box Comment -->
+    <div class="box box-widget">
+        <div class="box-header with-border">
+            <div class="user-block">
+                <img class="img-circle" src="@Model.UserImage"  width="60" alt="User Image">
+                <span class="username"><a href="#">@Model.UserFullName</a></span>
+                <span class="description">Shared publicly - @Model.CreateDate</span>
+                </div>
+                <!-- /.user-block -->
+                <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" id="countInteraction">
+                <img class="img-responsive pad" src="@Model.Image" alt="Photo">
+
+                <p>@Model.Title</p>
+                <p>@Model.Content</p>
+                <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                <span class="pull-right text-muted" id="likeCount">@Model.LikeCount likes - </span>
+                <span class="pull-right text-muted" id="commentCount"> @Model.CommentCount comments</span>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer box-comments" id="dynamicComment">
+                @foreach (var item in Model.Comments)
+                {
+                    <div class="box-comment" id="a_@item.Id">    @*//#a_*@
+                    <!-- User image -->
+                    <img class="img-circle img-sm" src="@item.UserImage" alt="User Image">
+
+                    <div class="comment-text">
+                    <span class="username">
+                    @item.Fullname
+                    <span class="text-muted pull-right">@item.CreateDate.</span>
+                    </span><!-- /.username -->
+                    @item.Text
+                    <a id="commentdelete" style="float:right" onclick=" commentDelete('@item.Id')" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
+                    </div>
+
+                    <!-- /.comment-text -->
+                    </div>
+                }
+
+
+
+                <!-- /.box-comment -->
+                </div>
+                <!-- /.box-footer -->
+                <div class="box-footer">
+
+                <img class="img-responsive img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">
+                <!-- .img-push is used to add margin to elements next to floating images -->
+                <div class="img-push">
+                    @* #comment *@
+                <input type="text"id="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                <button style="float:right" id="addComment" onclick="comment('@Model.Id')" class="btn btn-sm btn-success"><i class="fa fa-thumbs-o-up">comment</i></button>
+                <span  id="message" style="display:none"></span>
+                </div>
+
+                </div>
+                <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+                </div>
+                </div>
+
+<script>
+    function commentDelete(id)
+    {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteComment","Comment")/" + id,                       
+            success: function (data) {                                                 
+                $("#a_" + id).fadeOut();
+
+            }
+
+        });
+    }
+
+    function comment(id)
+    {
+        var commentText = $("#comment").val()
+
+        $.ajax({
+            type: "Post",
+            dataType: "Json",
+            data: { GetComment: commentText, newsId: id },
+        
+            url: "@Url.Action("AddComment","Comment")",
+
+            success: function (data) {
+
+                if (data != null)
+                {
+                    $("message").removeAttr("style");
+                    $("message").html("");
+                    $("message").append("have comment....").fadeIn(2000);
+                 
+
+                    commentDynamicList(newsId);
+                }
+                else
+                {
+                    $("message").removeAttr("style");
+                    $("message").html("");
+                    $("message").append("error has occured").fadeIn(2000);
+                }
+            }
+
+
+        });
+
+
+     }
+
+
+    function commentDynamicList(id)
+    {
+        $.ajax({
+             type: "Post",
+            dataType: "Json",
+
+            url: "@Url.Action("GetComment","Comment")/" +id, 
+            {
+                if (data != null) {
+                    $("#dynamicComment").append('<div class="box-comment">< !--User image-- ><img class="img-circle img-sm" src=" '+data.AppUserImage+' " alt="User Image"><div class="comment-text"><span class="username">'+data.FullName+'<span class="text-muted pull-right">'+data.CreateDate+'</span> </span><!-- /.username -->'+data.CommentText+'</div><!-- /.comment-text --></div><br/> <a id="commentdelete" style="float:right" onclick=" commentDelete('+data.Id+')" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>');
+
+                    $("#commentCount").hide().fadeOut(2000);
+                    $("#countInteraction").append('<span class="pull-right text-muted" id="commentCount"> ' + data.CommentCount + ' comments</span>');
+                    $("#comment").val("");
+                    $("#message").fadeOut(2000);
+                 
+                }
+                else
+                {
+                    console.log("errorrr");
+                }
+            }
+        });
+    }
+</script>
