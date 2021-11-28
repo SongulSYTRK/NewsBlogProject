@@ -21,23 +21,24 @@
                 <div class="box-body">
                     <table class="table table-hover">
                         <thead>
-                            <tr>
+                            
+                            <tr >
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 @*<th>Ip adress</th>
-                                  <th>Computer Name</th>
-                                  <th>create date</th>
-                                  <th>Status</th>*@
-                                 <th>Update</th>
-                                 <th>Delete</th>
-                                 <th>Detail</th>
-                             </tr>
-                         </thead>
+                                 <th>Computer Name</th>
+                                 <th>create date</th>
+                                 <th>Status</th>*@
+                                    <th>Update</th>
+                                <th>Delete</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
                          <tbody>
                              @foreach (GetCategoryVM category in Model)
                              {
-                             <tr>
+                             <tr id="a_@category.Id">
                                  <td>@category.Id</td>
                                  <td>@category.CategoryName</td>
                                  <td>@category.Description</td>
@@ -49,10 +50,12 @@
                                     <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-sm btn-outline-primary">Update</a>
                                 </td>
                                 <td>
-                                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-warning">Delete</a>
+                                   @* <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-warning">Delete</a>*@
+                                    <a id="delete"  onclick="Delete('@category.Id')"  class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                                 <td>
                                     <a asp-action="Detail" asp-route-id="@category.Id" class="btn btn-sm btn-success">Detail</a>
+                                   
                                 </td>
                             </tr>
 
@@ -69,3 +72,14 @@
         </div>
     </div>
 </div>
+<script>
+    function Delete(id)
+    {
+
+        $.ajax({
+            url: "/Category/Delete/"+id,
+            type: "POST",
+            success: function () { $("#a_"+id).fadeOut(); }
+        });
+    }
+</script>

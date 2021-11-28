@@ -22,7 +22,7 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
     {
         private readonly IAppUserRepository _appUserRepository;
 
-        // *****I injected IMapper. In this way Two class property merged automatically***///
+        // *****I injected IMapper. In this way Property of Two class  merged automatically***///
         private readonly IMapper _mapper; 
         public AppUserController(IAppUserRepository appUserRepository,
                                  IMapper mapper)

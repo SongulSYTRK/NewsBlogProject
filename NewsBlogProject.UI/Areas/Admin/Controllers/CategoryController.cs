@@ -105,11 +105,12 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
         }
             #endregion
         #region Delete
-            public IActionResult Delete(int id)
+            public JsonResult Delete(int id)
             {
             Category category = _categoryRepository.GetInt(x => x.Id == id);
             _categoryRepository.Delete(category);
-            return RedirectToAction("List");
+            // return RedirectToAction("List");
+            return Json(" ");
             }
         #endregion
         #region Detail

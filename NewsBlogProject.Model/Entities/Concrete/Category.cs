@@ -9,6 +9,6 @@ namespace NewsBlogProject.Model.Entities.Concrete
     {
         public string CategoryName { get; set; }
         public string Description { get; set; }
-        public IList<NewsCast> NewsCasts { get; set; }
+        public List<NewsCast> NewsCasts { get; set; }
     }
 }

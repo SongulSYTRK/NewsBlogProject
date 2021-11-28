@@ -24,7 +24,14 @@ namespace NewsBlogProject.Model.EntityTypeConfiguration.Concrete
                 .WithMany(x => x.Comments)
                 .HasForeignKey(x => x.AppUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasData(
+                 new Comment { Id=1, Text="beast", AppUserId=2, NewsCastId=3},
+                 new Comment { Id = 3, Text = "interesting news", AppUserId = 1, NewsCastId =2}
+                );
             base.Configure(builder);
+
+
         }
     }
 }

@@ -20,6 +20,13 @@ namespace NewsBlogProject.Model.EntityTypeConfiguration.Concrete
                 .WithMany(x => x.Likes)
                 .HasForeignKey(x => x.AppUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+           //seeddata
+            builder.HasData
+                (
+                 new Like { Id=2, NewsCastId=1, AppUserId=2},
+                 new Like { Id = 1, NewsCastId = 3, AppUserId = 1 }
+
+                );
             base.Configure(builder);
         }
     }
