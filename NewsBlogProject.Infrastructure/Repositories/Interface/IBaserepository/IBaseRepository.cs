@@ -14,7 +14,12 @@ namespace NewsBlogProject.Infrastructure.Repositories.Interface.IBaseRepository
         void Update(T Entity);
         void Delete(T Entity);
 
-      
+        bool Any(Expression<Func<T, bool>> expression);
+        //bool isPageExist(Expression<Func<T, bool>> expression);
+
+
+
+
         T GetInt(Expression<Func<T, bool>> expression);
 
         // T GetDefault(Expression<Func<T , bool>> expression);

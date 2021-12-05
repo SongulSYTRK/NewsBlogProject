@@ -37,7 +37,7 @@
                         </thead>
                          <tbody>
                              @foreach (GetCategoryVM category in Model)
-                             {
+                           {
                              <tr id="a_@category.Id">
                                  <td>@category.Id</td>
                                  <td>@category.CategoryName</td>
@@ -50,14 +50,16 @@
                                     <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-sm btn-outline-primary">Update</a>
                                 </td>
                                 <td>
-                                   @* <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-warning">Delete</a>*@
-                                    <a id="delete"  onclick="Delete('@category.Id')"  class="btn btn-sm btn-danger">Delete</a>
+                                    @*<a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-warning">Delete</a>*@
+                                    @*<a id="delete" onclick="Delete('@category.Id')" class="btn btn-sm btn-danger">Delete</a>*@
+                                    <input type="button" onclick="Delete('@category.Id')" value="Delete" name="Delete" class="btn btn-danger btn-sm" />
+                                 
                                 </td>
                                 <td>
                                     <a asp-action="Detail" asp-route-id="@category.Id" class="btn btn-sm btn-success">Detail</a>
                                    
                                 </td>
-                            </tr>
+                               </tr>
 
                             }
 
@@ -72,14 +74,16 @@
         </div>
     </div>
 </div>
-<script>
-    function Delete(id)
-    {
 
+<script>
+    function Delete(id) {
+        //sayfa server'a gidiyor
+        //fadeOut=remove
+        //JsonResult kullanıyorsak ajax kullanmalıyız.
         $.ajax({
-            url: "/Category/Delete/"+id,
+            url: "/Category/Delete/" + id,
             type: "POST",
-            success: function () { $("#a_"+id).fadeOut(); }
+            success: function () { $("#a_" + id).fadeOut(); }
         });
     }
 </script>

@@ -41,12 +41,23 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
                 //    Category category = new Category();
                 //     category.CategoryName= model.CategoryName ;
                 //     category.Description= model.Description ;
-            var category = _mapper.Map<Category>(model);
-            _categoryRepository.Create(category);
-            return View();
+                var category = _mapper.Map<Category>(model);
+
+                var  cato =_categoryRepository.Any(expression: x => x.CategoryName == model.CategoryName && x.Description==model.Description);
+                
+                if ( cato != false)
+                {
+                    ViewData["warning"] = "the category had";
+                    return View();
+                }
+               
+                _categoryRepository.Create(category);
+                ViewData["Success"] = "the categoryr has been added";
+                return View();
              }
             else
             {
+                ViewData["Error"] = "the categoryr hasnt been added";
                 return View(model);
             }
 
@@ -82,6 +93,7 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
             //model.Description = category.Description;
             //************getcategoryVM and CategoryUpdateDTO done mapping (Mapper=>mapping)****//
             var model = _mapper.Map<CategoryUpdateDTO>(category);
+            ViewData["Success"] = "Successed";
             return View(model);
 
         }
@@ -96,10 +108,13 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
                 //category.Description = model.Description;
                 var category = _mapper.Map<Category>(model);
                 _categoryRepository.Update(category);
-                return RedirectToAction("List");
+                ViewData["Success"] = "the categoryr has been update";
+                // return RedirectToAction("List");  //I want to see alertmessage. I dont make redirectaction because ViewData dont work other httppage. 
+                return View();
             }
             else
             {
+                ViewData["Error"] = "the categoryr hasnt been update";
                 return View(model);
             }
         }
@@ -109,9 +124,14 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
             {
             Category category = _categoryRepository.GetInt(x => x.Id == id);
             _categoryRepository.Delete(category);
+            
+            ViewData["Warning"] = "the categoryr Deleted";
             // return RedirectToAction("List");
+
             return Json(" ");
             }
+
+      
         #endregion
         #region Detail
         public IActionResult Detail(int id)

@@ -1,0 +1,23 @@
+﻿
+@if (ViewData["Success"] != null)
+{
+<div class="alert alert-success icon fa fa-check notification ">
+  
+    @ViewData["Success"]
+</div>
+}
+
+@if (ViewData["Warning"] != null)
+{
+    <div class="alert alert-warning icon fa fa-warning notification ">
+        @ViewData["Warning"]
+    </div>
+}
+
+
+@if (ViewData["error"] != null)
+{
+    <div class="alert alert-danger icon fa fa-warning notification ">
+        @ViewData["Error"]
+    </div>
+}

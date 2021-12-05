@@ -7,5 +7,5 @@ using System.Text;
 namespace NewsBlogProject.Infrastructure.Repositories.Interface.IEntityTypeRepository
 {
     public interface ICategoryRepository : IBaseRepository<Category> { }
-    
+   
 }

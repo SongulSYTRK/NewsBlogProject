@@ -84,5 +84,16 @@ namespace NewsBlogProject.Infrastructure.Repositories.Repository.Abstract
             _db.Entry<T>(Entity).State = EntityState.Modified;
             _db.SaveChanges();
         }
+
+        
+
+        //public bool isPageExist(Expression<Func<T, bool>> expression)
+        //{
+        //    return _table.Any(expression);
+        //}
+        public bool Any(Expression<Func<T, bool>> expression) => _table.Any(expression);
+
+
+
     }
 }
