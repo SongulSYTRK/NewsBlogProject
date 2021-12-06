@@ -1,7 +1,7 @@
 ﻿
 @if (ViewData["Success"] != null)
 {
-<div class="alert alert-success icon fa fa-check notification ">
+<div class="alert alert-success notification ">
   
     @ViewData["Success"]
 </div>
@@ -9,7 +9,7 @@
 
 @if (ViewData["Warning"] != null)
 {
-    <div class="alert alert-warning icon fa fa-warning notification ">
+    <div class="alert alert-warning notification ">
         @ViewData["Warning"]
     </div>
 }
@@ -17,7 +17,7 @@
 
 @if (ViewData["error"] != null)
 {
-    <div class="alert alert-danger icon fa fa-warning notification ">
+    <div class="alert alert-danger notification ">
         @ViewData["Error"]
     </div>
 }

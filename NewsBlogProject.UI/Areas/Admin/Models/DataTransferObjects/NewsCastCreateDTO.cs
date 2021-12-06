@@ -25,6 +25,7 @@ namespace NewsBlogProject.UI.Areas.Admin.Models.DataTransferObjects
         public string Image { get; set; }
 
         [NotMapped]
+        [FileExtensions]
         public IFormFile ImagePath { get; set; }
         public int CategoryId { get; set; }
         public int AppUserId { get; set; }

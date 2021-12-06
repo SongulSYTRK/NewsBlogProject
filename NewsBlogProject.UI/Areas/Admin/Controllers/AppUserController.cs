@@ -144,6 +144,7 @@ namespace NewsBlogProject.UI.Areas.Admin.Controllers
                 {
                     using var image = SixLabors.ImageSharp.Image.Load(model.ImagePath.OpenReadStream());
                     image.Mutate(x => x.Resize(256, 256));
+                    
                     image.Save($"wwwroot/images/{appUser.UserName}.jpg");
                     appUser.Image = ($"/images/{appUser.UserName}.jpg");
                     _appUserRepository.Update(appUser);

@@ -5,7 +5,7 @@
 $(function () {
 
     setTimeout(() => {
-        $("div.alert.notification").remove();
+        $("div.alert.notification").fadeOut();
     }, 2000);
 
 })

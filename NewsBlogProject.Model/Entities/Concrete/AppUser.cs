@@ -17,6 +17,7 @@ namespace NewsBlogProject.Model.Entities.Concrete
         public string FullName => $"{FirstName} {LastName}";
         public Role Role { get; set; }
         public string Image { get; set; }
+        public string XsImage { get; set; }
 
         [NotMapped]
         public IFormFile ImagePath { get; set; }

@@ -21,6 +21,7 @@ namespace NewsBlogProject.UI.Areas.Admin.Models.VMs
         public string Image { get; set; }
 
         [NotMapped]
+       
         public IFormFile ImagePath { get; set; }
         public DateTime? CreateDate { get; set; }
     }
